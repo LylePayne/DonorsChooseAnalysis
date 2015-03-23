@@ -78,7 +78,7 @@
 <body>
 
 
-<form action="DonorsChooseResultsPage.html" method = "POST">
+<!-- <form action="/DonorsChooseResultsPage" method = "POST"> -->
   <div id="chart_area" class="wrapper">
     <h2>Likelihood That Project Will Be Funded</h2>
     <p class="space"></p>
@@ -227,7 +227,10 @@
       <label for "specialneeds">Special Needs</label>
     </fieldset>
     </div>
-    
+  </form>
+
+  <form action="/DonorsChooseResultsPage" method = "POST">
+    <input type = "textarea" name="ProjectTitle" class = textbox-width>
     <input type="submit" value="Submit">
   </form>
 

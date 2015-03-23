@@ -2,22 +2,22 @@ import flask
 from sklearn.linear_model import LogisticRegression
 import numpy as np
 import pandas as pd
-import math 
+import urlparse 
 from sklearn.preprocessing import scale
 
 #---------- MODEL IN MEMORY ----------------#
 
 # Read the DonorsChoose Data from a formatted CSV table
 # Build a LogisticRegression predictor with data
-donorschoose_data = pd.read_csv("donorschoose.csv")
+# donorschoose_data = pd.read_csv("donorschoose.csv")
 
 ##Create dataframes for x & y values to input into model
-X_df = pd.DataFrame()
-X_df = donorschoose_data.drop("funded", 1)
-X_scaled = preprocessing.scale(X_df)
+# X_df = pd.DataFrame()
+# X_df = donorschoose_data.drop("funded", 1)
+# X_scaled = preprocessing.scale(X_df)
 
-Y_df = donorschoose_data['funded']
-PREDICTOR = LogisticRegression().fit(X_scaled,Y_df)
+# Y_df = donorschoose_data['funded']
+# PREDICTOR = LogisticRegression().fit(X_scaled,Y_df)
 
 #---------- URLS AND WEB PAGES -------------#
 
@@ -28,10 +28,17 @@ app = flask.Flask(__name__)
 @app.route("/")
 def viz_page():
     """ Homepage: serve visualization page, DonorsChooseApp.html"""
-    with open("DonorsChooseApp.html", 'r') as viz_file:
+    with open("DonorsChooseApp2.html", 'r') as viz_file:
         return viz_file.read()
 
 # Get an example and return it's score from the predictor model
+@app.route("/DonorsChooseResultsPage", methods = ["POST"])
+def text_page():
+    ProjectTitle = urlparse.parse_qs(flask.request.get_data())
+    return flask.render_template("DonorsChooseResultsPage.html", 
+                                A = ProjectTitle)
+
+
 @app.route("/score", methods=["POST"])
 def score():
     """  When A POST request with json data is made to this url,
@@ -50,5 +57,7 @@ def score():
 
 # Start the app server on port 80
 # (The default website port)
-app.run(host='0.0.0.0', port=80)
+if __name__ =='__main__':
+
+    app.run(host='0.0.0.0', debug=True)
 
