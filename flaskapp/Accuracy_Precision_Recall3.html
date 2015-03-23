@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title> Lyle's D3 </title>
+</head>
+
+<header>
+  <h2>Predicting Households with Children</h2>
+</header>
+
+<style>
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+
+
+text {
+  font: 15px sans-serif;
+}
+
+.axis path {
+  display: none;
+}
+
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.group-label {
+  text-anchor: end;
+}
+
+header {
+  font-size: 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight:  normal;
+  position: relative;
+}
+
+form {
+  font-size: 15px;
+  position: absolute;
+  right: 15px;
+  top: 30px;
+}
+
+</style>
+<form>
+  <label><input type="radio" name="mode" value="stacked" checked> Total Value </label>
+  <label><input type="radio" name="mode" value="multiples"> Incremental Value </label>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script>
+
+var margin = {top: 10, right: 20, bottom: 20, left: 200},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var y0 = d3.scale.ordinal()
+    .rangeRoundBands([height, 0], .2);
+
+var y1 = d3.scale.linear();
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1, 0);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+
+var nest = d3.nest()
+    .key(function(d) { return d.category; });
+
+var stack = d3.layout.stack()
+    .values(function(d) { return d.values; })
+    .x(function(d) { return d.category; })
+    .y(function(d) { return d.value; })
+    .out(function(d, y0) { d.ValueOffset = y0; });
+
+var color = d3.scale.category20b();
+
+var total_data = [0.816540577922, 0.730605863358, 0.684250480931];
+
+
+var formatValue = d3.format(".2f"),
+    formatPercent = function(d) { return (formatValue(d) * 100) + "%"; };
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Pulls in proper tsv file
+d3.tsv("D3Data_List_47.tsv", function(error, data) {
+
+  data.forEach(function(d) {
+    d.value = +d.value; });
+
+var dataByGroup = nest.entries(data);
+
+  // Created a data set with the total values and the x-values
+var total_data_test = [[0.816540577922, 0], 
+                        [0.730605863358, 255], 
+                        [0.684250480931, 510]];
+
+// var dummy_line = 
+
+// var lineFunction = d3.svg.line()
+//     .x()
+
+var svg_text = svg.selectAll("text")
+    .data(total_data_test)
+    .enter()
+  .append("text")
+    .attr("class", "text_group")
+    .attr("x", (function (d) {
+      return d[1] + 110})) 
+    .attr("y", 15)
+    .style("opacity", 1)
+    .text(function(d) { 
+    return formatPercent(d[0]); });
+
+    stack(dataByGroup);
+    x.domain(dataByGroup[0].values.map(function(d) { return d.score; }));
+    y0.domain(dataByGroup.map(function(d) { return d.key; }));
+    y1.domain([0, d3.max(data, function(d) { return d.value; })]).range([y0.rangeBand(), 0]);
+
+  var group = svg.selectAll(".group")
+      .data(dataByGroup)
+    .enter().append("g")
+      .attr("class", "group")
+      .attr("transform", function(d) { return "translate(0," + y0(y0.domain()[0]) + ")"; });
+
+      // adds category labels to the bars
+  group.append("text")
+      .attr("class", "group-label")
+      .attr("x", -6)
+      .attr("y", function(d) { return y1(d.values[0].value / 2); })
+      .attr("dy", ".35em")
+      .style("opacity","0")
+      .text(function(d) { return d.key; });
+
+  group.selectAll("rect")
+      .data(function(d) { return d.values; })
+    .enter().append("rect")
+      .style("fill", function(d) { return color(d.category); })
+      .attr("x", function(d) { return x(d.score); })
+      .attr("y", function(d) { return y1(d.value + d.ValueOffset); })
+      .attr("width", x.rangeBand())
+      .attr("height", function(d) { return y0.rangeBand() - y1(d.value); });
+    // var t = svg.transition().duration(750),
+      // g = t.selectAll(".group").attr("transform", "translate(0," + y0(y0.domain()[0]) + ")");
+    // g.selectAll("rect").attr("y", function(d) 
+    //   {return y1(d.value + d.ValueOffset); 
+
+  group.filter(function(d, i) { return !i; }).append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + y0.rangeBand() + ")")
+      .call(xAxis);
+
+
+  d3.selectAll("input").on("change", change);
+
+  // removed the automatic fade to multiples
+  // var timeout = setTimeout(function() {
+  //   d3.select("input[value=\"stacked\"]").property("checked", true).each(change);
+  // }, 4000);
+
+// Create a variable for the "div" item which will label the percentage units
+  var div = d3.select("body").append("div")
+      .style("position", "absolute")
+      .style("text-align", "center")
+      .style("width", "100px")
+      .style("height", "1.4em")
+      .style("font", "10px, sans-serif;")
+      .style("color", "black")
+      .style("font-weight", "bold")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
+
+  var div2 = d3.select("body").append("div")
+      .style("position", "absolute")
+      .style("text-align", "center")
+      .style("width", "100px")
+      .style("height", "1.4em")
+      .style("font", "10px, sans-serif;")
+      .style("color", "black")
+      .style("font-weight", "bold")
+      .style("pointer-events", "none")
+      .style("opacity", 0);
+
+      // Create a mouseover function to show the percent when you've moused over part of the rectangle
+  function mouseover(d) {
+       div.html(formatPercent(d.value))
+       .style("left", (d3.event.pageX) + "px")
+       .style("top", (d3.event.pageY) + "px")
+       .style("opacity", 1);}
+  function mouseout() {
+        div.style("opacity", 0);}
+
+    d3.selectAll("rect")
+      .on("mouseover", mouseover)
+      .on("mouseout", mouseout);
+
+
+
+    // Function to toggle between the "Stacked" & "Multiple" states
+  function change() {
+    // clearTimeout(timeout);
+    if (this.value === "stacked") {transitionStacked();}
+    else {transitionMultiples();}
+  }
+
+
+    // Changed the stack to multiple rectangles
+  function transitionMultiples() {
+    var t = svg.transition().duration(750),
+        g = t.selectAll(".group").attr("transform", function(d) 
+        { return "translate(0," + y0(d.key) + ")"; 
+        });
+    g.selectAll("rect").attr("y", function(d) {return y1(d.value); });    
+    g.select(".group-label").attr("y", function(d) { return y1(d.values[0].value / 2); });
+    g.select(".group-label").style("opacity","1");
+    svg.selectAll(".text_group").style("opacity", "0");
+  }
+
+    // Changed the rectangles to a stacked bar
+  function transitionStacked() {
+    var t = svg.transition().duration(750),
+        g = t.selectAll(".group").attr("transform", "translate(0," + y0(y0.domain()[0]) + ")");
+    g.selectAll("rect").attr("y", function(d) 
+      {return y1(d.value + d.ValueOffset); 
+      });
+
+    // Makes the value labels move with the rectangles
+    g.select(".group-label").attr("y", function(d) { return y1(d.values[0].value / 2 + d.values[0].ValueOffset); });
+    g.select(".group-label").style("opacity","0");
+
+    svg.selectAll(".text_group").style("opacity", "1");
+  }
+  });
+
+</script>
