@@ -1,84 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Donors Choose</title>
-
-<!-- <header>
-  <h2>Predicting Donors Choose Project Success</h2>
-</header> -->
-
-  <link rel="stylesheet" href="static/d3.slider.css" /> 
-  <style>
-
-    body {
-      font-family: Verdana,Arial,sans-serif;
-      font-size: .8em;
-      color: DarkSlateGray;
-    }
-
-    h2 {
-      font-size: 1.2em;
-      margin: 60px 0 5px 0;
-      color: black
-    }
-
-    h3 {
-      font-size: 1em;
-      margin: 60px 0 5px 0;
-      color: black
-    }
-
-    h4 {
-      font-size: .8em;
-      margin: 60px 0 5px 0;
-      color: black
-    }
-
-    legend {
-      display: 
-      block;
-      font-size: 1.2em;
-      color: orange;
-      padding-left: 2px;
-      padding-right: 2px;
-      border: none;
-    }
-
-    .space {
-      margin-bottom: 20 px;
-    }
-
-    .wrapper {
-      width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      margin-bottom: 0px;
-    }
-
-    #bar_chart {
-      margin-bottom: 0 px;
-    }
-
-    .bar {
-      fill: orange;
-    }
-
-    .textbox-width {
-    width: 600px;
-    }
-
-    span {
-      color: steelblue;
-    }
-
-  </style>
-</head>
-
-<body>
+{% extend "base.html" %}
 
 
-<!-- <form action="/DonorsChooseResultsPage" method = "POST"> -->
+{% block content %}
   <div id="chart_area" class="wrapper">
     <h2>Likelihood That Project Will Be Funded</h2>
     <p class="space"></p>
@@ -89,27 +14,20 @@
 <form action="/DonorsChooseResultsPage" method = "POST">
 
   <div id = "TeacherInfo" class="wrapper">
-    <form>
     <fieldset>
     <legend>Teacher Information</legend>
       Teacher Name <br>
-      <input type = "textarea" name="ProjectTitle" class = textbox-width>
+      <input type = "textarea" name="TeacherName" class = textbox-width>
       <br>
-      <form>
         <input type = "radio" name = "teacher_type" id = "teachfamerica" value = "teachfamerica">
         <label for="Traditional">Teach for America Teacher</label>
-      </form>
       <br>
-      <form>
       <input type = "radio" name = "teacher_type" id = "nyteachfellow" value = "nyteachfellow">
       <label for="NY Teaching Fellow">New York Teaching Fellow<label>
-      </form>
     </fieldset>
-    </form>
   </div>
 
   <div id = "ProjectInfo" class="wrapper">
-    <form>
     <fieldset>
     <legend>Project Information</legend>
       Project Title <br>
@@ -121,51 +39,36 @@
       Short Description <br>
       <input type = "textarea" name = "ShortDescription", class = textbox-width>
     </fieldset>
-    </form>
   </div>
 
   <div id="SchoolType" class="wrapper">
-    <form>
     <fieldset>
     <legend>School Type: select all that apply</legend>
+
       <input type = "radio" name = "school_type" id = "traditional" value = "traditional">
       <label for "Traditional">Traditional</label><br>
-    </form>
 
-    <form>
       <input type="radio" name = "school_type" id = "charter" value = "charter">
       <label for="Charter School">Charter School</label><br>
-    </form>
 
-   <form>
       <input type="radio" name = "school_type" id = "magnet" value = "magnet">
       <label for="Magnet School">Magnet School</label><br>
-    </form>
 
-    <form>
       <input type="radio" name = "school_type" id = "yearround" value = "yearround">
       <label for="Year Round School">Year Round School</label><br>
-    </form>
 
-    <form>
       <input type="radio" name = "school_type" id = "nlns" value = "nlns">
       <label for="NLNS School">NLNS School</label><br>
-    </form>
 
-    <form>
       <input type="radio" name = "school_type" id = "kipp" value = "kipp">
       <label for="Kipp School">Kipp School</label><br>
-    </form>
 
-    <form>
       <input type="radio" name = "school_type" id = "chartready" value = "chartready">
       <label for="Charter Ready School">Charter Ready Promise</label><br>
     </fieldset>
-    </form>
   </div>
 
   <div id="SchoolDemographics" class="wrapper">
-    <form>
     <fieldset>
     <legend>School Demographics:</legend>
       <input type = "radio" name = "povertylevel" id = "lowpoverty" value = "lowpoverty">
@@ -176,8 +79,7 @@
       <label for "highpoverty">High Poverty</label>
       <input type = "radio" name = "povertylevel" id = "highestpoverty" value = "highestpoverty">
       <label for "highestpoverty">Highest Poverty</label><br>
-    </form>
-    <form>
+
       <input type = "radio" name = "towndemo" id = "rural" value = "rural">
       <label for "rural">Rural</label>
       <input type = "radio" name = "towndemo" id = "suburban" value = "suburban">
@@ -185,7 +87,6 @@
       <input type = "radio" name = "towndemo" id = "urban" value = "urban">
       <label for "urban">Urban</label>
     </fieldset>
-    </form>
   </div>
 
   <div id="sliders" class="wrapper">
@@ -205,7 +106,6 @@
   </div>
 
   
-  <form>
     <div id="PrimaryFocusArea" class="wrapper">
     <fieldset>
     <legend>Primary Focus Area:</legend>
@@ -225,12 +125,8 @@
       <label for "specialneeds">Special Needs</label>
     </fieldset>
     </div>
-  </form>
 
-  <!-- <form action="/DonorsChooseResultsPage" method = "POST"> -->
-  <!-- <input type = "textarea" name="ProjectTitle" class = textbox-width> -->
     <input type="submit" value="Submit">
-  </form>
 </form>
 
 
@@ -338,5 +234,5 @@
            );
 
   </script>
-</body>
-</html>
+
+{% endblock %}
