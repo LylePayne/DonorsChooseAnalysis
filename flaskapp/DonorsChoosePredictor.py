@@ -3,7 +3,8 @@ from sklearn.linear_model import LogisticRegression
 import numpy as np
 import pandas as pd
 import urlparse 
-from sklearn.preprocessing import scale
+from sklearn import preprocessing
+from sklearn.preprocessing import scale, MinMaxScaler
 from sklearn.externals import joblib
 from textblob import TextBlob
 import pickle
@@ -12,7 +13,7 @@ import pickle
 
 # Read the DonorsChoose Data from a formatted CSV table
 
-PREDICTOR = joblib.load("GBC_Model.pkl")
+PREDICTOR = joblib.load("GBC_Model_Final.pkl")
 
 #---------- URLS AND WEB PAGES -------------#
 
@@ -75,6 +76,9 @@ def text_page():
     #Need Lowercase version of TownDemo
     lowerTownDemo = str(TownDemo.lower())
 
+    #Funding Requested edited:
+    Funding_string = FundingRequested.replace("$", "").replace(",", "")
+
 
 
     #Importing empty DF to use for example vector:
@@ -89,7 +93,7 @@ def text_page():
         x_df.loc[0, "NeedLength"] = need_length
         x_df.loc[0, "DescriptionLength"] = description_length
         x_df.loc[0, "students_reached"] = int(StudentsReached)
-        x_df.loc[0, "total_price_excluding_optional_support"] = int(FundingRequested)
+        x_df.loc[0, "total_price_excluding_optional_support"] = int(Funding_string)
         x_df.loc[0, "title polarity"] = titlepolarity
         x_df.loc[0, "short_description subjectivity"] = descpolarity
         x_df.loc[0, "need_statement polarity"] = needpolarity
@@ -102,12 +106,24 @@ def text_page():
         ##All currently set to April
         x_df.loc[0, 4.0] = 1
 
-        # x_vector = x_df
-
     # @app.route("/score", methods=["POST"])
         score = PREDICTOR.predict_proba(x_df)
         score_funded = score[0, 0]
 
+        ##feature importances
+        feature_importances = PREDICTOR.feature_importances_
+        x_array = np.asarray(x_df).flatten()
+        # topvalues = len(x_df) + len(feature_importances)
+        # absolutes = np.absolute(x_df)
+
+        x_array = MinMaxScaler().fit_transform(x_array)
+
+        feature_values = feature_importances*x_array
+        sorted_feature_ids = np.argsort(feature_values)
+        sorted_feature_names = np.asarray(x_df.columns)[sorted_feature_ids]
+        sorted_features = zip(sorted_feature_names, feature_values[sorted_feature_ids])
+
+        # topvalues = sorted_feature_values[-3:]
 
 
     return flask.render_template("DonorsChooseResultsPage.html", 
@@ -123,8 +139,8 @@ def text_page():
                                 FundingRequested = FundingRequested,
                                 PrimaryFocusArea = PrimaryFocusArea,
                                 ResourceType = ResourceType,
-                                X_DF = x_df,
-                                Results = score_funded)
+                                Results = score_funded,
+                                Coefficients =  sorted_features)
  
 #--------- RUN WEB APP SERVER ------------#
 

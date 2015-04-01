@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+{% extends "base.html" %}
+
+
+{% block content %}
+<!--   <div id="chart_area" class="wrapper">
+    <h2>Likelihood That Project Will Be Funded</h2>
+    <p class="space"></p>
+    <div id="bar_chart">
+    </div>
+  </div> -->
+<div id = "title" class = "wrapper">
+  <header>
+   <h2>Donors Choose Form</h2>
+   <br>
+  </header>
+</div>
+
+<form action="/DonorsChooseResultsPage" method = "POST">
+
+  <div id = "TeacherInfo" class="wrapper">
+    <legend>Teacher Information</legend>
+      <label> Teacher Name </label><br>
+      <input type = "textarea" name="TeacherName" class = textbox-width placeholder = "Mrs. Janny Jones">
+      <br>
+        <input type = "radio" name = "teacher_type" id = "TeachForAmericaTeacher" value = "Teach for America">
+        <label for="Teach for American Teacher">Teach for America</label>
+      <br>
+      <input type = "radio" name = "teacher_type" id = "nyteachfellow" value = "NY Teaching Fellow">
+      <label for="NY Teaching Fellow">NY Teaching Fellow</label>
+      <br>
+      <input type = "radio" name = "teacher_type" id = "none" value = "None">
+      <label for "None">None</label>
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id = "ProjectInfo" class="wrapper">
+    <!-- <fieldset> -->
+    <legend>Project Information</legend>
+      <label>Project Title</label> <br>
+      <input type = "textarea" name="ProjectTitle" class = textbox-width placeholder = "Kindergarteners' First Trip to the Zoo!">
+      <br>
+      <label>Need Statement</label><br>
+      <input type = "textarea" name = "NeedStatement", class = textbox-width
+      placeholder = "I need $250 to bring my Kindergarteners to the zoo">
+      <br>
+      <label>Short Description</label><br>
+      <input type = "textarea" name = "ShortDescription", class = textbox-width>
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id="SchoolType" class="wrapper">
+    <!-- <fieldset> -->
+    <legend>School Type: </legend>
+
+      <input type = "radio" name = "school_type" id = "traditional" value = "Traditional">
+      <label for "Traditional">Traditional School</label><br>
+
+      <input type="radio" name = "school_type" id = "charter" value = "Charter">
+      <label for="Charter School">Charter School</label><br>
+
+      <input type="radio" name = "school_type" id = "magnet" value = "Magnet">
+      <label for="Magnet School">Magnet School</label><br>
+
+      <input type="radio" name = "school_type" id = "yearround" value = "Year Round">
+      <label for="Year Round School">Year Round School</label><br>
+
+      <input type="radio" name = "school_type" id = "nlns" value = "NLNS">
+      <label for="NLNS School">NLNS School</label><br>
+
+      <input type="radio" name = "school_type" id = "kipp" value = "Kipp">
+      <label for="Kipp School">Kipp School</label><br>
+
+      <input type="radio" name = "school_type" id = "chartready" value = "Charter Ready Promise">
+      <label for="Charter Ready School">Charter Ready Promise</label><br>
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id="SchoolDemographics" class="wrapper">
+    <!-- <fieldset> -->
+    <legend>School Demographics:</legend>
+      <input type = "radio" name = "povertylevel" id = "lowpoverty" value = "Low Poverty">
+      <label for "lowpoverty">Low Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "moderatepoverty" value = "Moderate Poverty">
+      <label for "moderatepoverty"> Moderate Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highpoverty" value = "High Poverty">
+      <label for "highpoverty">High Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highestpoverty" value = "Highest Poverty">
+      <label for "highestpoverty">Highest Poverty</label><br>
+
+      <input type = "radio" name = "towndemo" id = "rural" value = "Rural">
+      <label for "rural">Rural</label>
+      <input type = "radio" name = "towndemo" id = "suburban" value = "Suburban">
+      <label for "suburban"> Suburban</label>
+      <input type = "radio" name = "towndemo" id = "urban" value = "Urban">
+      <label for "urban">Urban</label>
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id = "StudentsReached" class = "wrapper">
+    <!-- <fieldset> -->
+      <legend>Students Reached: </legend>
+      <!-- Students Reached: <br> -->
+      <input type = "textarea" name = studentsreached id = "studentsreached" class = textbox-width placeholder = "Example: 100">
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id = "FundingRequested" class = "wrapper">
+    <!-- <fieldset> -->
+      <legend>Funding Requested: </legend>
+      <input type = "textarea" name = fundingrequested id = "fundingrequested" class = textbox-width placeholder = "Example: $250.00">
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+
+  
+  <div id="PrimaryFocusArea" class="wrapper">
+  <!-- <fieldset> -->
+  <legend>Primary Focus Area:</legend>
+    <input type = "radio" name = "subjectarea" id = "appliedlearning" value = "Applied Learning">
+    <label for "appliedlearning">Applied Learning</label>
+    <input type = "radio" name = "subjectarea" id = "healthsports" value = "Health and Sports">
+    <label for "healthsports">Health and Sports</label>
+    <input type = "radio" name = "subjectarea" id = "history" value = "Civics and History">
+    <label for "history">Civics and History</label>
+    <input type = "radio" name = "subjectarea" id = "literacy" value = "Literacy">
+    <label for "literacy">Literacy</label><br>
+    <input type = "radio" name = "subjectarea" id = "math" value = "Math and Science">
+    <label for "math">Math and Science</label>
+    <input type = "radio" name = "subjectarea" id = "music" value = "Music and Arts">
+    <label for "music"> Music and Arts</label>
+    <input type = "radio" name = "subjectarea" id = "specialneeds" value = "Special Needs">
+    <label for "specialneeds">Special Needs</label>
+    <!-- </fieldset> -->
+  </div>
+  <br>
+
+  <div id= "Resource_Type" class = "wrapper">
+  <legend>Resource Type:</legend>
+    <input type = "radio" name = "resource_type" id = "books" value = "Books">
+    <label for "books">Books</label>
+    <input type = "radio" name = "resource_type" id = "supplies" value = "Supplies">
+    <label for "supplies">Supplies</label>
+    <input type = "radio" name = "resource_type" id = "technology" value = "Technology">
+    <label for "supplies">Technology</label>
+    <input type = "radio" name = "resource_type" id = "trips" value = "Trips">
+    <label for "trips">Trips</label>
+    <input type = "radio" name = "resource_type" id = "visitors" value = "Visitors">
+    <label for "visitors">Visitors</label>
+    <input type = "radio" name = "resource_type" id = "other" value = "Other">
+    <label for "other">Other</label>
+  </div>
+      <!-- </fieldset> -->
+  <br>
+
+  <div id="input button" class = "wrapper">
+    <input type="submit" value="Submit">
+  </div>
+</form>
+
+
+  <!-- Import the libraries: jQuery, d3, d3.slider -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="static/d3.slider.js"></script>
+  <script>
+
+  </script>
+
+{% endblock %}

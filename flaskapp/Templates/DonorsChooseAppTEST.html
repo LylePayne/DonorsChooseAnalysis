@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+{% extends "base.html" %}
+
+
+{% block content %}
+  <div id="chart_area" class="wrapper">
+    <h2>Likelihood That Project Will Be Funded</h2>
+    <p class="space"></p>
+    <div id="bar_chart">
+    </div>
+  </div>
+
+<form action="/DonorsChooseResultsPage" method = "POST">
+
+  <div id = "TeacherInfo" class="wrapper">
+    <fieldset>
+    <legend>Teacher Information</legend>
+      Teacher Name <br>
+      <input type = "textarea" name="TeacherName" class = textbox-width>
+      <br>
+        <input type = "radio" name = "teacher_type" id = "teachfamerica" value = "teachfamerica">
+        <label for="Traditional">Teach for America Teacher</label>
+      <br>
+      <input type = "radio" name = "teacher_type" id = "nyteachfellow" value = "nyteachfellow">
+      <label for="NY Teaching Fellow">New York Teaching Fellow<label>
+    </fieldset>
+  </div>
+
+  <div id = "ProjectInfo" class="wrapper">
+    <fieldset>
+    <legend>Project Information</legend>
+      Project Title <br>
+      <input type = "textarea" name="ProjectTitle" class = textbox-width>
+      <br>
+      Need Statement <br>
+      <input type = "textarea" name = "NeedStatement", class = textbox-width>
+      <br>
+      Short Description <br>
+      <input type = "textarea" name = "ShortDescription", class = textbox-width>
+    </fieldset>
+  </div>
+
+  <div id="SchoolType" class="wrapper">
+    <fieldset>
+    <legend>School Type: select all that apply</legend>
+
+      <input type = "radio" name = "school_type" id = "traditional" value = "traditional">
+      <label for "Traditional">Traditional</label><br>
+
+      <input type="radio" name = "school_type" id = "charter" value = "charter">
+      <label for="Charter School">Charter School</label><br>
+
+      <input type="radio" name = "school_type" id = "magnet" value = "magnet">
+      <label for="Magnet School">Magnet School</label><br>
+
+      <input type="radio" name = "school_type" id = "yearround" value = "yearround">
+      <label for="Year Round School">Year Round School</label><br>
+
+      <input type="radio" name = "school_type" id = "nlns" value = "nlns">
+      <label for="NLNS School">NLNS School</label><br>
+
+      <input type="radio" name = "school_type" id = "kipp" value = "kipp">
+      <label for="Kipp School">Kipp School</label><br>
+
+      <input type="radio" name = "school_type" id = "chartready" value = "chartready">
+      <label for="Charter Ready School">Charter Ready Promise</label><br>
+    </fieldset>
+  </div>
+
+  <div id="SchoolDemographics" class="wrapper">
+    <fieldset>
+    <legend>School Demographics:</legend>
+      <input type = "radio" name = "povertylevel" id = "lowpoverty" value = "lowpoverty">
+      <label for "lowpoverty">Low Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "moderatepoverty" value = "moderatepoverty">
+      <label for "moderatepoverty"> Moderate Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highpoverty" value = "highpoverty">
+      <label for "highpoverty">High Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highestpoverty" value = "highestpoverty">
+      <label for "highestpoverty">Highest Poverty</label><br>
+
+      <input type = "radio" name = "towndemo" id = "rural" value = "rural">
+      <label for "rural">Rural</label>
+      <input type = "radio" name = "towndemo" id = "suburban" value = "suburban">
+      <label for "suburban"> Suburban</label>
+      <input type = "radio" name = "towndemo" id = "urban" value = "urban">
+      <label for "urban">Urban</label>
+    </fieldset>
+  </div>
+
+  <div id="sliders" class="wrapper">
+    <fieldset>
+    <legend>Students Reached: <span id="students">10</span></legend>
+    <div class="feature" id="students_slider"></div>
+    <br>
+    </fieldset>
+  </div>
+    
+  <div id="sliders" class="wrapper">
+    <fieldset>
+    <legend>Funding Requested: <span id="funding">150</span></legend>
+    <div class="feature" id="funding_slider"></div>
+    <br>
+    </fieldset>
+  </div>
+
+  
+    <div id="PrimaryFocusArea" class="wrapper">
+    <fieldset>
+    <legend>Primary Focus Area:</legend>
+      <input type = "radio" name = "subjectarea" id = "appliedlearning" value = "appliedlearning">
+      <label for "lappliedlearning">Applied Learning</label>
+      <input type = "radio" name = "subjectarea" id = "healthsports" value = "healthsports">
+      <label for "healthsports">Health and Sports</label>
+      <input type = "radio" name = "subjectarea" id = "history" value = "history">
+      <label for "history">Civics and History</label>
+      <input type = "radio" name = "subjectarea" id = "literacy" value = "literacy">
+      <label for "literacy">Literacy</label><br>
+      <input type = "radio" name = "subjectarea" id = "math" value = "math">
+      <label for "math">Math and Science</label>
+      <input type = "radio" name = "subjectarea" id = "music" value = "music">
+      <label for "music"> Music and Arts</label>
+      <input type = "radio" name = "subjectarea" id = "specialneeds" value = "specialneeds">
+      <label for "specialneeds">Special Needs</label>
+    </fieldset>
+    </div>
+
+    <input type="submit" value="Submit">
+</form>
+
+
+  <!-- Import the libraries: jQuery, d3, d3.slider -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="static/d3.slider.js"></script>
+  <script>
+
+    <!-- SINGLE BAR CHART -->
+
+    var current_students = 10;
+    var current_fundingrequest = 150;
+    var current_chance = 76.0;
+
+    var chart = d3.select("#bar_chart")
+      .append("svg:svg")
+        .attr("width", 800)
+        .attr("height", 100);
+
+    var chance_scale = d3.scale.linear()
+      .domain([0, 100])
+      .range([0, 800]);
+
+    var bar = chart.append("g")
+                   .attr("class", "bar")
+
+    bar.append("svg:rect")
+      .attr("id", "chancebar")
+      .attr("class", "bar")
+      .attr("width", chance_scale(current_chance))
+      .attr("height", 50);
+
+     bar.append("text")
+        .attr("id", "percent_text")
+        .attr("dy", ".75em")
+        .attr("y", 15)
+        .attr("x", chance_scale(current_chance-5))
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .attr("font-size", 20)
+        .text(current_chance.toFixed(1) + "%");
+
+
+    <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
+
+
+    function getAndDrawChance(students, funding){ 
+        
+        // year = year - 1900;
+    	$.ajax({ 
+    		type: "POST", 
+    		contentType: "application/json; charset=utf-8", 
+    		url: "/score", 
+    		dataType: "json", 
+    		async: true, 
+    		data: "{\"example\": ["+students+","+funding+"]}", 
+    		success: function (data) { 
+    		   var chance = 100 * data["score"]; 
+                console.log(chance);
+                   d3.select("#chancebar")
+                         .attr("width", chance_scale(chance));
+                   d3.select("#percent_text")
+                         .attr("x", chance_scale(chance-5))
+                         .text(chance.toFixed(1) + "%");
+    		}, 
+    		error: function (result) { console.log(result)
+    		} 
+    	       }) 
+    } 
+
+
+    <!-- SLIDERS -->
+
+    d3.select('#students_slider')
+      .call(
+            d3.slider()
+              .value(current_students)
+              .min(0)
+              .max(250)
+              .step(25)
+              .axis(true)
+              .on("slide", function(evt,value) {
+                                                d3.select('#students').text(value);
+                                                current_students = value;
+                                                getAndDrawChance(current_students, current_fundingrequest)
+                                               }
+                 )
+           );
+
+    d3.select('#funding_slider')
+      .call(
+            d3.slider()
+              .value(current_fundingrequest)
+              .min(0)
+              .max(2000)
+              .step(200)
+              .axis(true)
+              .on("slide", function(evt,value) {
+                                                 d3.select('#funding').text(value);
+                                                 current_fundingrequest = value;
+                                                 getAndDrawChance(current_students, current_fundingrequest)
+                                               }
+                 )
+           );
+
+  </script>
+
+{% endblock %}

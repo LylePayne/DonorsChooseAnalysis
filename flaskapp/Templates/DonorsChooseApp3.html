@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+{% extends "base.html" %}
+
+
+{% block content %}
+<!--   <div id="chart_area" class="wrapper">
+    <h2>Likelihood That Project Will Be Funded</h2>
+    <p class="space"></p>
+    <div id="bar_chart">
+    </div>
+  </div> -->
+<div id = "title" class = "wrapper">
+  <header>
+   <h2>Donors Choose Form</h2>
+  </header>
+</div>
+
+<form action="/DonorsChooseResultsPage" method = "POST">
+
+  <div id = "TeacherInfo" class="wrapper">
+    <fieldset>
+    <legend>Teacher Information</legend>
+      Teacher Name <br>
+      <input type = "textarea" name="TeacherName" class = textbox-width placeholder = "Mrs. Janny Jones">
+      <br>
+        <input type = "radio" name = "teacher_type" id = "TeachForAmericaTeacher" value = "Teach for America Teacher">
+        <label for="Teach for American Teacher">Teach for America</label>
+      <br>
+      <input type = "radio" name = "teacher_type" id = "nyteachfellow" value = "NY Teaching Fellow">
+      <label for="NY Teaching Fellow">NY Teaching Fellow</label>
+      <br>
+      <input type = "radio" name = "teacher_type" id = "none" value = "None">
+      <label for "None">None</label>
+    </fieldset>
+  </div>
+
+  <div id = "ProjectInfo" class="wrapper">
+    <fieldset>
+    <legend>Project Information</legend>
+      Project Title <br>
+      <input type = "textarea" name="ProjectTitle" class = textbox-width placeholder = "Kindergarteners' First Trip to the Zoo!">
+      <br>
+      Need Statement <br>
+      <input type = "textarea" name = "NeedStatement", class = textbox-width
+      placeholder = "I need $250 to bring my Kindergarteners to the zoo">
+      <br>
+      Short Description <br>
+      <input type = "textarea" name = "ShortDescription", class = textbox-width>
+    </fieldset>
+  </div>
+
+  <div id="SchoolType" class="wrapper">
+    <fieldset>
+    <legend>School Type: </legend>
+
+      <input type = "radio" name = "school_type" id = "traditional" value = "Traditional">
+      <label for "Traditional">Traditional School</label><br>
+
+      <input type="radio" name = "school_type" id = "charter" value = "Charter">
+      <label for="Charter School">Charter School</label><br>
+
+      <input type="radio" name = "school_type" id = "magnet" value = "Magnet">
+      <label for="Magnet School">Magnet School</label><br>
+
+      <input type="radio" name = "school_type" id = "yearround" value = "Year Round">
+      <label for="Year Round School">Year Round School</label><br>
+
+      <input type="radio" name = "school_type" id = "nlns" value = "NLNS">
+      <label for="NLNS School">NLNS School</label><br>
+
+      <input type="radio" name = "school_type" id = "kipp" value = "Kipp">
+      <label for="Kipp School">Kipp School</label><br>
+
+      <input type="radio" name = "school_type" id = "chartready" value = "Charter Ready Promise">
+      <label for="Charter Ready School">Charter Ready Promise</label><br>
+    </fieldset>
+  </div>
+
+  <div id="SchoolDemographics" class="wrapper">
+    <fieldset>
+    <legend>School Demographics:</legend>
+      <input type = "radio" name = "povertylevel" id = "lowpoverty" value = "Low Poverty">
+      <label for "lowpoverty">Low Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "moderatepoverty" value = "Moderate Poverty">
+      <label for "moderatepoverty"> Moderate Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highpoverty" value = "High Poverty">
+      <label for "highpoverty">High Poverty</label>
+      <input type = "radio" name = "povertylevel" id = "highestpoverty" value = "Highest Poverty">
+      <label for "highestpoverty">Highest Poverty</label><br>
+
+      <input type = "radio" name = "towndemo" id = "rural" value = "Rural">
+      <label for "rural">Rural</label>
+      <input type = "radio" name = "towndemo" id = "suburban" value = "Suburban">
+      <label for "suburban"> Suburban</label>
+      <input type = "radio" name = "towndemo" id = "urban" value = "Urban">
+      <label for "urban">Urban</label>
+    </fieldset>
+  </div>
+
+  <div id = "StudentsReached" class = "wrapper">
+    <fieldset>
+      <legend>Students Reached: </legend>
+      <!-- Students Reached: <br> -->
+      <input type = "textarea" name = studentsreached id = "studentsreached" class = textbox-width placeholder = "Example: 100">
+    </fieldset>
+  </div>
+
+  <div id = "FundingRequested" class = "wrapper">
+    <fieldset>
+      <legend>Funding Requested: </legend>
+      <input type = "textarea" name = fundingrequested id = "fundingrequested" class = textbox-width placeholder = "Example: $250.00">
+    </fieldset>
+  </div>
+
+
+  
+    <div id="PrimaryFocusArea" class="wrapper">
+    <fieldset>
+    <legend>Primary Focus Area:</legend>
+      <input type = "radio" name = "subjectarea" id = "appliedlearning" value = "Applied Learning">
+      <label for "appliedlearning">Applied Learning</label>
+      <input type = "radio" name = "subjectarea" id = "healthsports" value = "Health and Sports">
+      <label for "healthsports">Health and Sports</label>
+      <input type = "radio" name = "subjectarea" id = "history" value = "Civics and History">
+      <label for "history">Civics and History</label>
+      <input type = "radio" name = "subjectarea" id = "literacy" value = "Literacy">
+      <label for "literacy">Literacy</label><br>
+      <input type = "radio" name = "subjectarea" id = "math" value = "Math and Science">
+      <label for "math">Math and Science</label>
+      <input type = "radio" name = "subjectarea" id = "music" value = "Music and Arts">
+      <label for "music"> Music and Arts</label>
+      <input type = "radio" name = "subjectarea" id = "specialneeds" value = "Special Needs">
+      <label for "specialneeds">Special Needs</label>
+    </fieldset>
+    </div>
+
+    <div id= "Resource_Type" class = "wrapper">
+    <legend>Resource Type:</legend>
+      <input type = "radio" name = "resource_type" id = "books" value = "Books">
+      <label for "books">Books</label>
+      <input type = "radio" name = "resource_type" id = "supplies" value = "Supplies">
+      <label for "supplies">Supplies</label>
+      <input type = "radio" name = "resource_type" id = "technology" value = "Technology">
+      <label for "supplies">Technology</label>
+      <input type = "radio" name = "resource_type" id = "trips" value = "Trips">
+      <label for "trips">Trips</label>
+      <input type = "radio" name = "resource_type" id = "visitors" value = "Visitors">
+      <label for "visitors">Visitors</label>
+      <input type = "radio" name = "resource_type" id = "other" value = "Other">
+      <label for "other">Other</label>
+
+
+    <!-- <div id = "PrimaryFocusSubject" class="wrapper">
+      <fieldset>
+        <legend>Primary Focus Subject</legend>
+        <input type = "radio" name = "focussubject" id = "applied_science" value = "Applied Science">
+        <label for "applied_science">Applied Science</label>
+        <input type = "radio" name = "focussubject" id = "character_education" value = "Character Education">
+        <label for "character_education">Character Education</label>
+        <input type = "radio" name = "focussubject" id = "civicsandgov" value = "Civics and Government">
+        <label for "civicsandgov">Civics and Government</label>
+        <input type = "radio" name = "focussubject" id = "collegeandcareer" value = "College and Career Prep">
+        <label for "collegeandcareer">College and Career Prep</label> <br>
+        <input type = "radio" name = "focussubject" id = "CommunityService" value = "Community Service"> 
+        <label for "CommunityService">Community Service</label>
+        <input type = "radio" name = "focussubject" id = "esl" value = "ESL">
+        <label for "esl">ESL</label>
+        <input type = "radio" name = "focussubject" id = "EarlyDevelopment" value = "Early Development">
+        <label for "EarlyDevelopment">Early Development</label>
+        <input type = "radio" name = "focussubject" id = "economics" value = "Economics">
+        <label for "economics">Economics</label>
+        <input type = "radio" name = "focussubject" id = "env_science" value = "Environmental Science">
+        <label for "env_science">Environmental Science</label><br>
+        <input type = "radio" name = "focussubject" id = "extracurricular" value = "Extracurricular">
+        <label for "extracurricular">Extracurricular</label>
+        <input type = "radio" name = "focussubject" id = "foreignlanguage" value = "Foreign Language">
+        <label for "foreignlanguage">Foreign Language</label>
+        <input type = "radio" name = "focussubject" id = "gymandfitness" value = "Gym and Fitness">
+        <label for "gymandfitness">Gym and Fitness</label>
+        <input type = "radio" name = "focussubject" id = "HealthLifeScience" value = "Health and Life Science">
+        <label for "HealthLifeScience">Health and Life Science</label>
+        <input type = "radio" name = "focussubject" id = "HistandGeo" value = "History and Geography">
+        <label for "HistandGeo">History and Geography</label><br>
+        <input type = "radio" name = "focussubject" id = "Literacy" value = "Literacy">
+        <label for "Literacy">Literacy</label>
+        <input type = "radio" name = "focussubject" id = "LitandWriting" value = "Literature and Writing">
+        <label for "LitandWriting">Literature and Writing</label>
+        <input type = "radio" name = "focussubject" id = "math" value = "Mathematics">
+        <label for "math">Mathematics</label>
+        <input type = "radio" name = "focussubject" id = "Music" value = "Music">
+        <label for "Music">Music</label>
+        <input type = "radio" name = "focussubject" id = "Nutrition" value = "Nutrition">
+        <label for "Nutrition">Nutrition</label>
+        <input type = "radio" name = "focussubject" id = "ParentInvolv" value = "Parental Involvement">
+        <label for "ParentInvolv">Parental Involvement</label><br>
+        <input type = "radio" name = "focussubject" id = "PerfArts" value = "Performing Arts">
+        <label for "PerfArts">Performing Arts</label>
+        <input type = "radio" name = "focussubject" id = "SocScience" value = "Social Science">
+        <label for "SocScience">Social Science</label>
+        <input type = "radio" name = "focussubject" id = "SpecNeeds" value = "Special Needs">
+        <label for "SpecNeeds">Special Needs</label>
+        <input type = "radio" name = "focussubject" id = "Sports" value = "Sports">
+        <label for "Sports">Sports</label>
+        <input type = "radio" name = "focussubject" id = "VisualArts" value = "Visual Arts">
+        <label for "VisualArts">Visual Arts</label> -->
+ 
+
+      </fieldset>
+
+    <div id="input button" class = "wrapper">
+      <input type="submit" value="Submit">
+    </div>
+</form>
+
+
+  <!-- Import the libraries: jQuery, d3, d3.slider -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="static/d3.slider.js"></script>
+  <script>
+
+    // <!-- SINGLE BAR CHART -->
+
+    // var current_students = 10;
+    // var current_fundingrequest = 150;
+    // var current_chance = 76.0;
+
+    // var chart = d3.select("#bar_chart")
+    //   .append("svg:svg")
+    //     .attr("width", 800)
+    //     .attr("height", 100);
+
+    // var chance_scale = d3.scale.linear()
+    //   .domain([0, 100])
+    //   .range([0, 800]);
+
+    // var bar = chart.append("g")
+    //                .attr("class", "bar")
+
+    // bar.append("svg:rect")
+    //   .attr("id", "chancebar")
+    //   .attr("class", "bar")
+    //   .attr("width", chance_scale(current_chance))
+    //   .attr("height", 50);
+
+    //  bar.append("text")
+    //     .attr("id", "percent_text")
+    //     .attr("dy", ".75em")
+    //     .attr("y", 15)
+    //     .attr("x", chance_scale(current_chance-5))
+    //     .attr("text-anchor", "middle")
+    //     .attr("fill", "white")
+    //     .attr("font-size", 20)
+    //     .text(current_chance.toFixed(1) + "%");
+
+
+    <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR  HEIGHT -->
+
+
+    function getAndDrawChance(students, funding){ 
+        
+        // year = year - 1900;
+    	$.ajax({ 
+    		type: "POST", 
+    		contentType: "application/json; charset=utf-8", 
+    		url: "/score", 
+    		dataType: "json", 
+    		async: true, 
+    		data: "{\"example\": ["+students+","+funding+"]}", 
+    		success: function (data) { 
+    		   var chance = 100 * data["score"]; 
+                console.log(chance);
+                   d3.select("#chancebar")
+                         .attr("width", chance_scale(chance));
+                   d3.select("#percent_text")
+                         .attr("x", chance_scale(chance-5))
+                         .text(chance.toFixed(1) + "%");
+    		}, 
+    		error: function (result) { console.log(result)
+    		} 
+    	       }) 
+    } 
+
+
+    // <!-- SLIDERS -->
+
+    // d3.select('#students_slider')
+    //   .call(
+    //         d3.slider()
+    //           .value(current_students)
+    //           .min(0)
+    //           .max(250)
+    //           .step(25)
+    //           .axis(true)
+    //           .on("slide", function(evt,value) {
+    //                                             d3.select('#students').text(value);
+    //                                             current_students = value;
+    //                                             getAndDrawChance(current_students, current_fundingrequest)
+    //                                            }
+    //              )
+    //        );
+
+    // d3.select('#funding_slider')
+    //   .call(
+    //         d3.slider()
+    //           .value(current_fundingrequest)
+    //           .min(0)
+    //           .max(2000)
+    //           .step(200)
+    //           .axis(true)
+    //           .on("slide", function(evt,value) {
+    //                                              d3.select('#funding').text(value);
+    //                                              current_fundingrequest = value;
+    //                                              getAndDrawChance(current_students, current_fundingrequest)
+    //                                            }
+    //              )
+    //        );
+
+  </script>
+
+{% endblock %}

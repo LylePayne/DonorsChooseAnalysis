@@ -1,16 +1,108 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Donors Choose</title>
 
-<header>
-  <h2>We're Here!</h2>
-</header>
+{% extends "base.html" %}
 
-<body>
 
-{{ A }}
+{% block content %}
 
-</body>
+<!-- <div id = "title" class = "wrapper">
+	<header>
+ 	 <h2>Your Request!</h2>
+	</header>
+</div> -->
 
+
+ <div id="chart_area" class="wrapper">
+   <h2>Likelihood That Project Will Be Funded</h2>
+   <p class="space"></p>
+   <div id="bar_chart">
+   </div>
+ </div>
+
+
+<div id="Text Information" class="wrapper">
+	<legend> Your Request: </legend>
+	Teacher Name:  {{TeacherName}} <br>
+	Teacher Type:  {{teacher_type}} <br>
+	Project Title:  {{ProjectTitle}} <br>
+	Need Statement:  {{NeedStatement}} <br>
+	Short Description:  {{ShortDescription}} <br>
+	School Type:  {{SchoolType}} <br>
+	Poverty Level:  {{PovertyLevel}} <br>
+	Town Demographics:  {{TownDemo}} <br>
+	Students Reached:  {{StudentsReached}} <br>
+	Funding Requested: {{FundingRequested}} <br>
+	Primary Focus Area: {{PrimaryFocusArea}} <br>
+	Resource Type: {{ResourceType}} <br>
+	Coefficients: {{Coefficients}}
+
+
+ <!-- Import the libraries: jQuery, d3, d3.slider -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="static/d3.slider.js"></script>
+  <script>
+
+<!-- SINGLE BAR CHART -->
+
+	var score_percent = ({{Results}}*100)
+    var current_chance = score_percent;
+
+    var chart = d3.select("#bar_chart")
+      .append("svg:svg")
+        .attr("width", 800)
+        .attr("height", 100);
+
+    var chance_scale = d3.scale.linear()
+      .domain([0, 100])
+      .range([0, 800]);
+
+    var bar = chart.append("g")
+                   .attr("class", "bar")
+
+    bar.append("svg:rect")
+      .attr("id", "chancebar")
+      .attr("class", "bar")
+      .attr("width", chance_scale(current_chance))
+      .attr("height", 50);
+
+    bar.append("text")
+      .attr("id", "percent_text")
+      .attr("dy", ".75em")
+      .attr("y", 15)
+      .attr("x", chance_scale(current_chance-5))
+      .attr("text-anchor", "middle")
+      .attr("fill", "white")
+      .attr("font-size", 20)
+      .text(current_chance.toFixed(1) + "%");
+    
+ <!-- FUNCTION TO GET CHANCE FROM YOUR PREDICTOR WITH AJAX AND CHANGE BAR HEIGHT -->	
+
+    function getAndDrawChance(){ 
+        
+    	$.ajax({ 
+    		type: "POST", 
+    		contentType: "application/json; charset=utf-8", 
+    		url: "/score", 
+    		dataType: "json", 
+    		async: true, 
+    		data: "{\"example\"}", 
+    		success: function (data) { 
+    		   var chance = 100 * data["score"]; 
+                console.log(chance);
+                   d3.select("#chancebar")
+                         .attr("width", chance_scale(chance));
+                   d3.select("#percent_text")
+                         .attr("x", chance_scale(chance-5))
+                         .text(chance.toFixed(1) + "%");
+    		}, 
+    		error: function (result) { console.log(result)
+    		} 
+    	       }) 
+    } 
+
+</script>
+
+
+{% endblock %}

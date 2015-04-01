@@ -1,0 +1,77 @@
+<style>
+
+    body {
+      font-family: Verdana,Arial,sans-serif;
+      font-size: .8em;
+      font-weight: normal;
+      color: DarkSlateGray;
+    }
+
+    h2 {
+      font-family: Verdana,Arial,sans-serif;
+      font-weight: bold;
+      font-size: 1.3em;
+      margin: 60px 0 5px 0;
+      color: black
+    }
+
+    h3 {
+      font-family: Verdana,Arial,sans-serif;
+      /*font-weight: bold;*/
+      font-size: 1em;
+      color: orange
+    }
+
+    h4 {
+      font-family: Verdana,Arial,sans-serif;
+      font-size: .8em;
+      margin: 60px 0 5px 0;
+      color: black
+    }
+
+    legend {
+      font-family: Verdana,Arial,sans-serif;
+      /*display: block;*/
+      font-size: 1em;
+      color: orange;
+      /*padding-left: 2px;
+      padding-right: 2px;
+      border: none;*/
+    }
+
+    label {
+      font-family: Verdana,Arial,sans-serif;
+      font-size: .8em;
+      font-weight: normal;
+      color: DarkSlateGray;
+    }
+
+    /*.space {
+      margin-bottom: 20 px;
+    }*/
+
+    .wrapper {
+      width: 800px;
+      margin-left: 40px;
+      margin-right: 40px;
+      margin-bottom: 0px;
+    }
+
+    #bar_chart {
+      margin-bottom: 0 px;
+    }
+
+    .bar {
+      fill: orange;
+    }
+
+    .textbox-width {
+    width: 700px;
+    }
+
+    span {
+      color: steelblue;
+    }
+
+
+  </style>
