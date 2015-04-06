@@ -69,6 +69,14 @@
     width: 700px;
     }
 
+    .navbar-header {
+      color: orange;
+    }
+
+    .container-fluid{
+      color: orange;
+    }
+
     span {
       color: steelblue;
     }

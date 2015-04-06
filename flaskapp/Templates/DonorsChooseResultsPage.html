@@ -14,16 +14,22 @@
 
 
  <div id="chart_area" class="wrapper">
-   <h2>Likelihood That Project Will Be Funded</h2>
+   <h2>Probability That Project Will Be Funded</h2>
    <p class="space"></p>
    <div id="bar_chart">
    </div>
  </div>
 
+<div id="Most Important Features" class="wrapper">
+	<legend> Most Important Features: </legend>
+	1: {{MostImportant}} <br>
+	2: {{SecondImportant}} <br>
+	3: {{ThirdImportant}}<br>
+</div>
+<br>
 
 <div id="Text Information" class="wrapper">
-	<legend> Your Request: </legend>
-	Teacher Name:  {{TeacherName}} <br>
+	<legend> {{TeacherName}}'s Request: </legend>
 	Teacher Type:  {{teacher_type}} <br>
 	Project Title:  {{ProjectTitle}} <br>
 	Need Statement:  {{NeedStatement}} <br>
@@ -35,7 +41,7 @@
 	Funding Requested: {{FundingRequested}} <br>
 	Primary Focus Area: {{PrimaryFocusArea}} <br>
 	Resource Type: {{ResourceType}} <br>
-	Coefficients: {{Coefficients}}
+</div>
 
 
  <!-- Import the libraries: jQuery, d3, d3.slider -->

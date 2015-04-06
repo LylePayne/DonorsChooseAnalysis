@@ -11,9 +11,53 @@ import pickle
 
 #---------- MODEL IN MEMORY ----------------#
 
-# Read the DonorsChoose Data from a formatted CSV table
+# Import the Gradient Boosting Classifier Model & Scaler
 
-PREDICTOR = joblib.load("GBC_Model_Final.pkl")
+PREDICTOR = joblib.load("GBCModel.pkl")
+SCALER = joblib.load("scaler.pkl")
+
+#---------- DICTIONARY OF TERMS ----------------#
+
+# Create dictionary to be able to access readable column headers
+
+Label_dictionary = {'school_charter': 'School Charter',
+                    'school_year_round': 'School Year Round',
+                    'school_nlns': 'NLNS School',
+                    'school_kipp': 'Kipp School',
+                    'school_charter_ready_promise': 'Charter Ready Promise School',
+                    'teacher_teach_for_america': 'Teach for America Teacher',
+                    'teacher_ny_teaching_fellow': 'NY Teaching Fellow',
+                    'total_price_excluding_optional_support' : 'Funding Requested',
+                    'students_reached': 'Students Reached',
+                    'TitleLength' : 'Title Length',
+                    'DescriptionLength' : 'Description Length',
+                    'NeedLength' : 'Need Length',
+                    'title polarity' : 'Title Polarity',
+                    'short_description subjectivity' : 'Short Description Subjectivity',
+                    'need_statement polarity': 'Need Statement Polarity',
+                    'need_statement subjectivity': 'Need Statement Subjectivity',
+                    'high poverty' : 'High Poverty',
+                    'highest poverty' : 'Highest Poverty',
+                    'low poverty' : 'Low Poverty',
+                    'Books' : 'Books',
+                    'Supplies' : 'Supplies',
+                    'Techonology' : 'Technology',
+                    'Trips': 'Trips',
+                    'Visitors': 'Visitors',
+                    'rural': 'Rural Community',
+                    'suburban': 'Suburban Community',
+                    'urban' : 'Urban Community',
+                    1.0 : 'January',
+                    2.0 : 'February',
+                    3.0 : 'March',
+                    4.0 : 'April',
+                    5.0 : 'May',
+                    7.0 : 'July',
+                    8.0 : 'August',
+                    9.0 : 'September',
+                    10.0: 'October',
+                    11.0: 'November',
+                    12.0: 'December'}
 
 #---------- URLS AND WEB PAGES -------------#
 
@@ -93,7 +137,7 @@ def text_page():
         x_df.loc[0, "NeedLength"] = need_length
         x_df.loc[0, "DescriptionLength"] = description_length
         x_df.loc[0, "students_reached"] = int(StudentsReached)
-        x_df.loc[0, "total_price_excluding_optional_support"] = int(Funding_string)
+        x_df.loc[0, "total_price_excluding_optional_support"] = float(Funding_string)
         x_df.loc[0, "title polarity"] = titlepolarity
         x_df.loc[0, "short_description subjectivity"] = descpolarity
         x_df.loc[0, "need_statement polarity"] = needpolarity
@@ -116,12 +160,22 @@ def text_page():
         # topvalues = len(x_df) + len(feature_importances)
         # absolutes = np.absolute(x_df)
 
-        x_array = MinMaxScaler().fit_transform(x_array)
+        scaled_x = SCALER.fit_transform(x_array)
 
-        feature_values = feature_importances*x_array
+        feature_values = feature_importances*scaled_x
         sorted_feature_ids = np.argsort(feature_values)
         sorted_feature_names = np.asarray(x_df.columns)[sorted_feature_ids]
         sorted_features = zip(sorted_feature_names, feature_values[sorted_feature_ids])
+
+        most_important_feature = Label_dictionary[sorted_features[-1][0]]
+        second_most_important = Label_dictionary[sorted_features[-2][0]]
+        third_most_important = Label_dictionary[sorted_features[-3][0]]
+
+        # for featurename, featureimportance in sorted_features[-:
+        #     print featurename
+
+
+
 
         # topvalues = sorted_feature_values[-3:]
 
@@ -140,7 +194,9 @@ def text_page():
                                 PrimaryFocusArea = PrimaryFocusArea,
                                 ResourceType = ResourceType,
                                 Results = score_funded,
-                                Coefficients =  sorted_features)
+                                MostImportant =  most_important_feature,
+                                SecondImportant = second_most_important,
+                                ThirdImportant = third_most_important)
  
 #--------- RUN WEB APP SERVER ------------#
 
