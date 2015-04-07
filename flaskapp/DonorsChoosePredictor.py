@@ -168,9 +168,9 @@ def text_page():
         sorted_feature_names = np.asarray(x_df.columns)[sorted_feature_ids]
         sorted_features = zip(sorted_feature_names, feature_values[sorted_feature_ids])
 
-        most_important_feature = Label_dictionary[sorted_features[-2][0]]
-        second_most_important = Label_dictionary[sorted_features[-3][0]]
-        third_most_important = Label_dictionary[sorted_features[-4][0]]
+        most_important_feature = Label_dictionary[sorted_features[-1][0]]
+        second_most_important = Label_dictionary[sorted_features[-2][0]]
+        third_most_important = Label_dictionary[sorted_features[-3][0]]
 
         # for featurename, featureimportance in sorted_features[-:
         #     print featurename
@@ -205,5 +205,5 @@ def text_page():
 # (The default website port)
 if __name__ =='__main__':
 
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0')
 
