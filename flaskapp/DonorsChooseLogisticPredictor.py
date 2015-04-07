@@ -14,8 +14,8 @@ import pickle
 
 # Import the Gradient Boosting Classifier Model & Scaler
 
-PREDICTOR = joblib.load("GBCModel2.pkl")
-SCALER = joblib.load("scaler.pkl")
+PREDICTOR = joblib.load("LogisticModel3.pkl")
+SCALER = joblib.load("scaler2.pkl")
 
 #---------- DICTIONARY OF TERMS ----------------#
 
@@ -156,7 +156,7 @@ def text_page():
         score_funded = score[0, 0]
 
         ##feature importances
-        feature_importances = PREDICTOR.feature_importances_
+        feature_importances = PREDICTOR.coef_
         x_array = np.asarray(x_df).flatten()
         # topvalues = len(x_df) + len(feature_importances)
         # absolutes = np.absolute(x_df)
@@ -164,13 +164,14 @@ def text_page():
         scaled_x = SCALER.fit_transform(x_array)
 
         feature_values = feature_importances*scaled_x
+
         sorted_feature_ids = np.argsort(feature_values)
         sorted_feature_names = np.asarray(x_df.columns)[sorted_feature_ids]
-        sorted_features = zip(sorted_feature_names, feature_values[sorted_feature_ids])
+        # sorted_features = zip(sorted_feature_names, feature_values[sorted_feature_ids])
 
-        most_important_feature = Label_dictionary[sorted_features[-2][0]]
-        second_most_important = Label_dictionary[sorted_features[-3][0]]
-        third_most_important = Label_dictionary[sorted_features[-4][0]]
+        # most_important_feature = Label_dictionary[sorted_features[-2][0]]
+        # second_most_important = Label_dictionary[sorted_features[-3][0]]
+        # third_most_important = Label_dictionary[sorted_features[-4][0]]
 
         # for featurename, featureimportance in sorted_features[-:
         #     print featurename
@@ -195,9 +196,9 @@ def text_page():
                                 PrimaryFocusArea = PrimaryFocusArea,
                                 ResourceType = ResourceType,
                                 Results = score_funded,
-                                MostImportant =  most_important_feature,
-                                SecondImportant = second_most_important,
-                                ThirdImportant = third_most_important)
+                                MostImportant =  sorted_feature_names)
+                                # SecondImportant = second_most_important,
+                                # ThirdImportant = third_most_important)
  
 #--------- RUN WEB APP SERVER ------------#
 
